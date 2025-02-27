@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kayıt Düzenle</title>
+    <style>
+        /* Genel stil ayarları */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 500px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form input[type="text"], form input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kayıt Düzenle</h1>
+
+    <form action="/edit/{{ row['id'] }}" method="post">
+        <label for="tarih">Tarih:</label>
+        <input type="text" name="tarih" value="{{ row['tarih'] }}" required><br>
+
+        <label for="saat">Çalışma Saati:</label>
+        <input type="number" name="saat" value="{{ row['saat'] }}" required><br>
+
+        <label for="paket">Paket Sayısı:</label>
+        <input type="number" name="paket" value="{{ row['paket'] }}" required><br>
+
+        <label for="saatlik_ucret">Saatlik Ücret:</label>
+        <input type="number" name="saatlik_ucret" value="{{ row['saatlik_ucret'] }}" required><br>
+
+        <label for="paket_ucret">Paket Başı Ücret:</label>
+        <input type="number" name="paket_ucret" value="{{ row['paket_ucret'] }}" required><br>
+
+        <input type="submit" value="Güncelle">
+    </form>
+
+    <a href="/">Geri Dön</a>
+</body>
+</html>
