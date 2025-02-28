@@ -8,6 +8,7 @@ def get_db_connection():
     conn = sqlite3.connect("kurye_takip.db")
     conn.row_factory = sqlite3.Row
     return conn
+from datetime import datetime
 
 
 # 1-15 aras?nda kazanc? hesaplayan fonksiyon
