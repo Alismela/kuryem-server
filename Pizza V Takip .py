@@ -11,7 +11,7 @@ def get_db_connection():
     return conn
 
 
-# 1-15 arasında kazancı hesaplayan fonksiyon
+# 1-15 aras?nda kazanc? hesaplayan fonksiyon
 def get_aylik_kazanc_1_15():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -27,24 +27,24 @@ def get_aylik_kazanc_1_15():
     return sonuc['toplam_kazanc'] if sonuc['toplam_kazanc'] else 0
 
 
-# 16-31 arasında kazancı hesaplayan fonksiyon
+# 16-31 aras?nda kazanc? hesaplayan fonksiyon
 import calendar
 import datetime
 
 
 def get_aylik_kazanc_16_31():
-    # Şu anki tarihin yılı ve ayı
+    # ?u anki tarihin y?l? ve ay?
     yil = datetime.datetime.now().year
     ay = datetime.datetime.now().month
 
-    # Ayın 16'sı
+    # Ay?n 16's?
     ay_baslangic = datetime.datetime(yil, ay, 16).strftime('%d-%m-%Y')
 
-    # Ayın son günü
-    son_gun = calendar.monthrange(yil, ay)[1]  # Ayın kaç gün sürdüğünü alır
+    # Ay?n son g?n?
+    son_gun = calendar.monthrange(yil, ay)[1]  # Ay?n ka? g?n s?rd???n? al?r
     ay_son = datetime.datetime(yil, ay, son_gun).strftime('%d-%m-%Y')
 
-    # Veritabanı sorgusunu yap
+    # Veritaban? sorgusunu yap
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('''
@@ -87,7 +87,7 @@ def add():
     return redirect('/')
 
 
-# Kaydı Silme
+# Kayd? Silme
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
     conn = get_db_connection()
@@ -97,7 +97,7 @@ def delete(id):
     return redirect('/')
 
 
-# Kaydı Güncelleme
+# Kayd? G?ncelleme
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
     conn = get_db_connection()
