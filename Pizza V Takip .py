@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
-import datetime
 
 app = Flask(__name__)
 
