@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -69,14 +70,14 @@
 <body class="bg-light">
   <div class="container mt-5">
     <h1 class="text-center header-green">Kazanç Takip Sistemi</h1>
-    <h2 class="text-center text-success">Toplam Kazanç: {{ total_income|int }} TL</h2>
+    <h2 class="text-center text-success">Toplam Kazanç: 1600 TL</h2>
     <h4 class="text-center">
-      1-15 Günlük: {{ total_income_1_15|int }} TL | 16-31 Günlük: {{ total_income_15_31|int }} TL
+      1-15 Günlük: 1600 TL | 16-31 Günlük: 0 TL
     </h4>
 
     <!-- Güncel Ay Verileri Paneli -->
     <div class="mt-4 current-data-panel">
-      <h3 class="header-green text-center">{{ current_month_name }} Ayının Toplam Kazancı</h3>
+      <h3 class="header-green text-center">Mart Ayının Toplam Kazancı</h3>
       <div class="scrollable-table">
         <table class="table-custom">
           <thead>
@@ -91,27 +92,23 @@
             </tr>
           </thead>
           <tbody>
-            {% for record in current_records %}
+            
             <tr>
-              <td>{{ record[1] }}</td>
-              <td>{{ record[2]|int }}</td>
-              <td>{{ record[3]|int }}</td>
-              <td>{{ record[4]|int }} TL</td>
-              <td>{{ record[5]|int }} TL</td>
-              <td>{{ record[6]|int }} TL</td>
+              <td>01/03/2025</td>
+              <td>10</td>
+              <td>10</td>
+              <td>60 TL</td>
+              <td>100 TL</td>
+              <td>1600 TL</td>
               <td>
-                <a href="/edit/{{ record[0] }}" class="btn btn-warning btn-sm">Düzenle</a>
-                <form action="/delete/{{ record[0] }}" method="post" style="display:inline;">
+                <a href="/edit/9" class="btn btn-warning btn-sm">Düzenle</a>
+                <form action="/delete/9" method="post" style="display:inline;">
                   <button type="submit" class="btn btn-danger btn-sm">Sil</button>
                 </form>
               </td>
             </tr>
-            {% endfor %}
-            {% if current_records|length == 0 %}
-            <tr>
-              <td colspan="7" class="text-center">Güncel aya ait kayıt bulunamadı.</td>
-            </tr>
-            {% endif %}
+            
+            
           </tbody>
         </table>
       </div>
@@ -179,32 +176,93 @@
               </tr>
             </thead>
             <tbody>
-              {% for record in last_month_records %}
+              
               <tr>
-                <td>{{ record[1] }}</td>
-                <td>{{ record[2]|int }}</td>
-                <td>{{ record[3]|int }}</td>
-                <td>{{ record[6]|int }} TL</td>
+                <td>28/02/2025</td>
+                <td>10</td>
+                <td>10</td>
+                <td>1600 TL</td>
                 <td>
-                  <a href="/edit/{{ record[0] }}" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/{{ record[0] }}" method="post" style="display:inline;">
+                  <a href="/edit/8" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/8" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Sil</button>
                   </form>
                 </td>
               </tr>
-              {% endfor %}
-              {% if last_month_records|length == 0 %}
+              
               <tr>
-                <td colspan="5" class="text-center">Geçtiğimiz aya ait kayıt bulunamadı.</td>
+                <td>27/02/2025</td>
+                <td>10</td>
+                <td>16</td>
+                <td>1960 TL</td>
+                <td>
+                  <a href="/edit/3" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/3" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                  </form>
+                </td>
               </tr>
-              {% endif %}
+              
+              <tr>
+                <td>26/02/2025</td>
+                <td>10</td>
+                <td>18</td>
+                <td>2080 TL</td>
+                <td>
+                  <a href="/edit/4" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/4" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                  </form>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>25/02/2025</td>
+                <td>10</td>
+                <td>14</td>
+                <td>1840 TL</td>
+                <td>
+                  <a href="/edit/5" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/5" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                  </form>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>24/02/2025</td>
+                <td>10</td>
+                <td>18</td>
+                <td>2080 TL</td>
+                <td>
+                  <a href="/edit/6" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/6" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                  </form>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>23/02/2025</td>
+                <td>8</td>
+                <td>17</td>
+                <td>1820 TL</td>
+                <td>
+                  <a href="/edit/7" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/7" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                  </form>
+                </td>
+              </tr>
+              
+              
             </tbody>
           </table>
         </div>
 
         <div class="mt-2 text-center">
-          <strong class="header-green">{{ last_month_name }} Ayının Toplam Kazancı:</strong>
-          <span class="header-green">{{ last_month_income|int }} TL</span>
+          <strong class="header-green">Şubat Ayının Toplam Kazancı:</strong>
+          <span class="header-green">11380 TL</span>
         </div>
       </div>
     </div>
