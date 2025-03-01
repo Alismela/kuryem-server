@@ -1,3 +1,0 @@
-[12, 32, 41]
-[12, 32, 41] 3 adet sayı dosyaya eklendi
-Merhaba ChatGPT
