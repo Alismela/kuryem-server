@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kazanç Takip Sistemi</title>
+  <title>Kazanç Takip Sistemi - Ana Sayfa</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -63,21 +62,22 @@
       border-radius: 10px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       margin-top: 20px;
-      border: 3px solid #2e7d32; /* Kenarlık 3px kalınlığında, koyu yeşil */
+      border: 3px solid #2e7d32; /* Koyu yeşil kenarlık */
     }
   </style>
 </head>
 <body class="bg-light">
   <div class="container mt-5">
+    <!-- Başlık -->
     <h1 class="text-center header-green">Kazanç Takip Sistemi</h1>
-    <h2 class="text-center text-success">Toplam Kazanç: 1600 TL</h2>
+    <h2 class="text-center text-success">Toplam Kazanç: <!-- TOTAL_INCOME TL --></h2>
     <h4 class="text-center">
-      1-15 Günlük: 1600 TL | 16-31 Günlük: 0 TL
+      1-15 Günlük: <!-- TOTAL_INCOME_1_15 TL --> | 16-31 Günlük: <!-- TOTAL_INCOME_15_31 TL -->
     </h4>
 
     <!-- Güncel Ay Verileri Paneli -->
     <div class="mt-4 current-data-panel">
-      <h3 class="header-green text-center">Mart Ayının Toplam Kazancı</h3>
+      <h3 class="header-green text-center"><!-- CURRENT_MONTH_NAME --> Ayının Toplam Kazancı</h3>
       <div class="scrollable-table">
         <table class="table-custom">
           <thead>
@@ -92,23 +92,33 @@
             </tr>
           </thead>
           <tbody>
-            
-            <tr>
-              <td>01/03/2025</td>
-              <td>10</td>
-              <td>10</td>
-              <td>60 TL</td>
-              <td>100 TL</td>
-              <td>1600 TL</td>
-              <td>
-                <a href="/edit/9" class="btn btn-warning btn-sm">Düzenle</a>
-                <form action="/delete/9" method="post" style="display:inline;">
-                  <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                </form>
-              </td>
-            </tr>
-            
-            
+            <!-- CURRENT_RECORDS Döngüsü Başlangıcı -->
+            <!--
+            {% for record in current_records %}
+              <tr>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2]|int }}</td>
+                <td>{{ record[3]|int }}</td>
+                <td>{{ record[4]|int }} TL</td>
+                <td>{{ record[5]|int }} TL</td>
+                <td>{{ record[6]|int }} TL</td>
+                <td>
+                  <a href="/edit/{{ record[0] }}" class="btn btn-warning btn-sm">Düzenle</a>
+                  <form action="/delete/{{ record[0] }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+            -->
+            <!-- Eğer kayıt yoksa -->
+            <!--
+            {% if current_records|length == 0 %}
+              <tr>
+                <td colspan="7" class="text-center">Güncel aya ait kayıt bulunamadı.</td>
+              </tr>
+            {% endif %}
+            -->
           </tbody>
         </table>
       </div>
@@ -117,35 +127,33 @@
     <!-- Yeni Veri Ekleme (Sol) ve Geçtiğimiz Ayın Verileri (Sağ) -->
     <div class="row mt-4">
       <!-- Yeni Veri Ekleme Formu (Col-md-5) -->
-      <!-- Yeni Veri Ekleme Formu (Col-md-5) -->
-<div class="col-md-5">
-  <h2 class="header-green">Yeni Veri Ekle</h2>
-  <form action="/add" method="post" class="form-container">
-    <div class="mb-3">
-      <label for="tarih" class="form-label">Tarih:</label>
-      <input type="date" name="tarih" id="tarih" class="form-control" required>
-      <button type="button" class="btn btn-secondary mt-2" onclick="setToday()">Bugün</button>
-    </div>
-    <div class="mb-3">
-      <label for="saat" class="form-label">Çalışma Saati:</label>
-      <input type="number" name="saat" id="saat" class="form-control" required value="10">
-    </div>
-    <div class="mb-3">
-      <label for="paket" class="form-label">Paket Sayısı:</label>
-      <input type="number" name="paket" id="paket" class="form-control" required>
-    </div>
-    <div class="mb-3">
-      <label for="paket_basi_ucret" class="form-label">Paket Başı Ücret:</label>
-      <input type="number" step="any" name="paket_basi_ucret" id="paket_basi_ucret" class="form-control" required value="60">
-    </div>
-    <div class="mb-3">
-      <label for="saatlik_ucret" class="form-label">Saatlik Ücret:</label>
-      <input type="number" step="any" name="saatlik_ucret" id="saatlik_ucret" class="form-control" required value="100">
-    </div>
-    <button type="submit" class="btn btn-custom">Kaydet</button>
-  </form>
-</div>
-
+      <div class="col-md-5">
+        <h2 class="header-green">Yeni Veri Ekle</h2>
+        <form action="/add" method="post" class="form-container">
+          <div class="mb-3">
+            <label for="tarih" class="form-label">Tarih:</label>
+            <input type="date" name="tarih" id="tarih" class="form-control" required>
+            <button type="button" class="btn btn-secondary mt-2" onclick="setToday()">Bugün</button>
+          </div>
+          <div class="mb-3">
+            <label for="saat" class="form-label">Çalışma Saati:</label>
+            <input type="number" name="saat" id="saat" class="form-control" required value="10">
+          </div>
+          <div class="mb-3">
+            <label for="paket" class="form-label">Paket Sayısı:</label>
+            <input type="number" name="paket" id="paket" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="paket_basi_ucret" class="form-label">Paket Başı Ücret:</label>
+            <input type="number" step="any" name="paket_basi_ucret" id="paket_basi_ucret" class="form-control" required value="60">
+          </div>
+          <div class="mb-3">
+            <label for="saatlik_ucret" class="form-label">Saatlik Ücret:</label>
+            <input type="number" step="any" name="saatlik_ucret" id="saatlik_ucret" class="form-control" required value="100">
+          </div>
+          <button type="submit" class="btn btn-custom">Kaydet</button>
+        </form>
+      </div>
 
       <!-- Geçtiğimiz Ayın Verileri ve Diğer Aylara Geçiş (Col-md-7) -->
       <div class="col-md-7">
@@ -154,11 +162,11 @@
           <form id="other-month-form" class="d-flex align-items-center ms-2">
             <label for="other_month" class="me-2 fw-bold header-green">Ay:</label>
             <select id="other_month" class="form-select form-select-sm">
+              <!-- İstediğiniz ayları ekleyebilirsiniz -->
               <option value="01-2025">Ocak 2025</option>
               <option value="02-2025">Şubat 2025</option>
               <option value="03-2025">Mart 2025</option>
               <option value="04-2025">Nisan 2025</option>
-              <!-- Diğer aylar eklenebilir -->
             </select>
             <button type="submit" class="btn btn-custom btn-sm ms-2">Git</button>
           </form>
@@ -176,93 +184,38 @@
               </tr>
             </thead>
             <tbody>
-              
-              <tr>
-                <td>28/02/2025</td>
-                <td>10</td>
-                <td>10</td>
-                <td>1600 TL</td>
-                <td>
-                  <a href="/edit/8" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/8" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                  </form>
-                </td>
-              </tr>
-              
-              <tr>
-                <td>27/02/2025</td>
-                <td>10</td>
-                <td>16</td>
-                <td>1960 TL</td>
-                <td>
-                  <a href="/edit/3" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/3" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                  </form>
-                </td>
-              </tr>
-              
-              <tr>
-                <td>26/02/2025</td>
-                <td>10</td>
-                <td>18</td>
-                <td>2080 TL</td>
-                <td>
-                  <a href="/edit/4" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/4" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                  </form>
-                </td>
-              </tr>
-              
-              <tr>
-                <td>25/02/2025</td>
-                <td>10</td>
-                <td>14</td>
-                <td>1840 TL</td>
-                <td>
-                  <a href="/edit/5" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/5" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                  </form>
-                </td>
-              </tr>
-              
-              <tr>
-                <td>24/02/2025</td>
-                <td>10</td>
-                <td>18</td>
-                <td>2080 TL</td>
-                <td>
-                  <a href="/edit/6" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/6" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                  </form>
-                </td>
-              </tr>
-              
-              <tr>
-                <td>23/02/2025</td>
-                <td>8</td>
-                <td>17</td>
-                <td>1820 TL</td>
-                <td>
-                  <a href="/edit/7" class="btn btn-warning btn-sm">Düzenle</a>
-                  <form action="/delete/7" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                  </form>
-                </td>
-              </tr>
-              
-              
+              <!-- LAST_MONTH_RECORDS Döngüsü Başlangıcı -->
+              <!--
+              {% for record in last_month_records %}
+                <tr>
+                  <td>{{ record[1] }}</td>
+                  <td>{{ record[2]|int }}</td>
+                  <td>{{ record[3]|int }}</td>
+                  <td>{{ record[6]|int }} TL</td>
+                  <td>
+                    <a href="/edit/{{ record[0] }}" class="btn btn-warning btn-sm">Düzenle</a>
+                    <form action="/delete/{{ record[0] }}" method="post" style="display:inline;">
+                      <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+              -->
+              <!-- Eğer kayıt yoksa -->
+              <!--
+              {% if last_month_records|length == 0 %}
+                <tr>
+                  <td colspan="5" class="text-center">Geçtiğimiz aya ait kayıt bulunamadı.</td>
+                </tr>
+              {% endif %}
+              -->
             </tbody>
           </table>
         </div>
 
         <div class="mt-2 text-center">
-          <strong class="header-green">Şubat Ayının Toplam Kazancı:</strong>
-          <span class="header-green">11380 TL</span>
+          <strong class="header-green"><!-- LAST_MONTH_NAME --> Ayının Toplam Kazancı:</strong>
+          <span class="header-green"><!-- LAST_MONTH_INCOME TL --></span>
         </div>
       </div>
     </div>
