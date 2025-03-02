@@ -1,29 +1,7 @@
-gitignore_content = """# Python dosyaları
-*.pyc
-__pycache__/
+if __name__ == '__main__':
+    app.run(debug=True)
+import os
+from flask import Flask
 
-# Sanal ortamlar
-venv/
-env/
-*.env
-
-# Veritabanı dosyaları (örn: SQLite)
-*.db
-
-# Log dosyaları
-*.log
-
-# IDE/Editor dosyaları
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# MacOS
-.DS_Store
-"""
-
-with open('.gitignore', 'w', encoding='utf-8') as f:
-    f.write(gitignore_content)
-
-print("'.gitignore' dosyası başarıyla oluşturuldu!")
+app = Flask(__name__)
+DB_FILE = 'kazanc_data.db'

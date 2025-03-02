@@ -237,3 +237,14 @@ def gecmis_veriler(ay):
 
 if __name__ == '__main__':
     app.run(debug=True)
+import os
+from flask import Flask
+
+app = Flask(__name__)
+DB_FILE = 'kazanc_data.db'
+
+# Uygulamanızın diğer kodları burada yer alır.
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
