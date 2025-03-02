@@ -1,2 +1,2 @@
-gcc
-gfortran
+build-essential
+gfortran-11
