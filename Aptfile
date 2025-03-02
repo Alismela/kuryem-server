@@ -1,0 +1,5 @@
+﻿gcc
+g++
+make
+libffi-dev
+libssl-dev
