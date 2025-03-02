@@ -1,2 +1,2 @@
-gcc
-gfortran
+gcc-12
+gfortran-11
