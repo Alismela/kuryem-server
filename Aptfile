@@ -1,4 +1,4 @@
-﻿gcc
+gcc
 g++
 make
 libffi-dev
