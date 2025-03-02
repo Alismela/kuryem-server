@@ -1,5 +1,2 @@
 gcc
-g++
-make
-libffi-dev
-libssl-dev
+gfortran-11
