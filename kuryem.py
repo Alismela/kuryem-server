@@ -10,27 +10,27 @@ import base64
 
 app = Flask(__name__)
 
-# 🌐 Google'ın doğrulama URL'si
+# 🌐 Google doğrulama endpoint'i
 GOOGLE_API_URL = "https://playintegrity.googleapis.com/v1/integrityTokens:decode"
 
-# 🔐 Ortam değişkeninden base64 olarak şifrelenmiş JSON key'i al
+# 🔐 Ortam değişkeninden base64 ile şifrelenmiş JSON key alınır
 json_key_base64 = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "").strip()
 if not json_key_base64:
-    raise Exception("❌ GOOGLE_SERVICE_ACCOUNT_JSON ortam değişkeni boş geldi!")
+    raise Exception("❌ Ortam değişkeni (GOOGLE_SERVICE_ACCOUNT_JSON) boş!")
 
-# 🔓 Base64 çözümle
+# 🔓 Base64 decode işlemi
 try:
     decoded_str = base64.b64decode(json_key_base64).decode("utf-8")
 except Exception as e:
     raise Exception(f"🧨 Base64 çözümleme başarısız: {e}")
 
-# 📄 JSON çözümle
+# 📄 JSON çözümleme
 try:
     json_key_dict = json.loads(decoded_str)
 except json.JSONDecodeError as e:
     raise Exception(f"❌ JSON decode hatası: {e}")
 
-# 🎫 Kimlik bilgilerini oluştur
+# 🎫 Kimlik bilgileri
 credentials = service_account.Credentials.from_service_account_info(
     json_key_dict,
     scopes=["https://www.googleapis.com/auth/playintegrity"]
@@ -44,12 +44,17 @@ def verify():
     if not integrity_token:
         return jsonify({"error": "Token eksik"}), 400
 
-    # 🔑 Erişim token’ı oluştur
-    authed_session = Request()
-    credentials.refresh(authed_session)
-    access_token = credentials.token
+    # 🔑 Token yenileme
+    try:
+        authed_session = Request()
+        credentials.refresh(authed_session)
+        access_token = credentials.token
+        print(f"🔑 access_token: {access_token}")
+    except Exception as e:
+        print(f"❌ Token yenileme hatası: {e}")
+        return jsonify({"error": "Access token alınamadı"}), 401
 
-    # 📡 Google'a doğrulama isteği gönder
+    # 📡 Google'a doğrulama isteği
     response = requests.post(
         GOOGLE_API_URL,
         headers={
@@ -71,6 +76,7 @@ def verify():
     is_premium = license_status == "LICENSED"
 
     return jsonify({"is_premium": is_premium})
+
 @app.route('/')
 def home():
     return "🚀 Kuryem API çalışıyor!"
