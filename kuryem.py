@@ -71,6 +71,9 @@ def verify():
     is_premium = license_status == "LICENSED"
 
     return jsonify({"is_premium": is_premium})
+@app.route('/')
+def home():
+    return "🚀 Kuryem API çalışıyor!"
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
