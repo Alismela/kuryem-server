@@ -6,20 +6,29 @@ import google.auth.jwt
 import requests
 import json
 import os
+import base64
 
 app = Flask(__name__)
 
 # 🌐 Google'ın doğrulama URL'si
 GOOGLE_API_URL = "https://playintegrity.googleapis.com/v1/integrityTokens:decode"
 
-# 🔐 JSON key içeriğini ortam değişkeninden al
-json_key_str = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+# 🔐 Ortam değişkeninden base64 olarak şifrelenmiş JSON key'i al
+json_key_base64 = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "").strip()
+if not json_key_base64:
+    raise Exception("❌ GOOGLE_SERVICE_ACCOUNT_JSON ortam değişkeni boş geldi!")
 
-if not json_key_str:
-    raise Exception("❌ GOOGLE_SERVICE_ACCOUNT_JSON ortam değişkeni eksik!")
+# 🔓 Base64 çözümle
+try:
+    decoded_str = base64.b64decode(json_key_base64).decode("utf-8")
+except Exception as e:
+    raise Exception(f"🧨 Base64 çözümleme başarısız: {e}")
 
-# JSON string'i sözlük yapısına çevir
-json_key_dict = json.loads(json_key_str)
+# 📄 JSON çözümle
+try:
+    json_key_dict = json.loads(decoded_str)
+except json.JSONDecodeError as e:
+    raise Exception(f"❌ JSON decode hatası: {e}")
 
 # 🎫 Kimlik bilgilerini oluştur
 credentials = service_account.Credentials.from_service_account_info(
@@ -35,12 +44,12 @@ def verify():
     if not integrity_token:
         return jsonify({"error": "Token eksik"}), 400
 
-    # 🧠 JWT imzalı erişim token'ı oluştur
+    # 🔑 Erişim token’ı oluştur
     authed_session = Request()
     credentials.refresh(authed_session)
     access_token = credentials.token
 
-    # Google'a doğrulama isteği gönder
+    # 📡 Google'a doğrulama isteği gönder
     response = requests.post(
         GOOGLE_API_URL,
         headers={
@@ -57,7 +66,7 @@ def verify():
     decoded = response.json()
     print("✅ Doğrulanan yanıt:", json.dumps(decoded, indent=2))
 
-    # 🎯 Lisans kontrolü
+    # 🏷️ Lisans kontrolü
     license_status = decoded.get("accountDetails", {}).get("appLicensingVerdict", "UNLICENSED")
     is_premium = license_status == "LICENSED"
 

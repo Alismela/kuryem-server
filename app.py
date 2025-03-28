@@ -1,49 +1,24 @@
-from flask import Flask, request, jsonify
-import requests
+import os
+import json
+import base64
 
-app = Flask(__name__)
-conversation_history = []
+json_key_base64 = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+print("GELEN ŞİFRELİ JSON:", json_key_base64[:100])  # İlk 100 karakteri yaz
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    user_input = request.json.get('message')
-    if not user_input:
-        return jsonify({'error': 'No message provided'}), 400
+# Eğer None veya boş ise:
+if not json_key_base64:
+    raise Exception("🚫 Ortam değişkeni boş gelmiş!")
 
-    # System prompt'u tanımla
-    system_prompt = {
-        "role": "system",
-        "content": (
-        "Sen Türkçe konuşan, sade ve samimi bir asistanısın. "
-        "Cevaplarını kısa, net, sıcak ve profesyonel ver. "
-        "Kullanıcının verdiği mesajlardan şu verileri anlamaya çalış:\n"
-        "- Tarih\n"
-        "- Paket sayısı\n"
-        "- Çalışma süresi\n"
-        "- Paket başı ücret\n"
-        "- Saatlik ücret\n"
-        "Bu bilgileri düzgünce ayrıştır ve net özet ver. Gereksiz uzatma, sayı vermek için varsayım yapma. "
-        "Kısa ve güven verici ol."
+# Base64 çöz
+try:
+    json_key_str = base64.b64decode(json_key_base64).decode('utf-8')
+except Exception as e:
+    raise Exception(f"🧨 Base64 decode edilemedi: {e}")
 
-        )
-    }
+print("ÇÖZÜLEN JSON:", json_key_str[:100])  # İlk 100 karakteri göster
 
-    # Konuşma geçmişine eklemeden önce prompt'u en başa koy
-    full_messages = [system_prompt] + conversation_history + [{"role": "user", "content": user_input}]
-
-    response = requests.post('http://localhost:11434/api/chat', json={
-        "model": "mistral",
-        "messages": full_messages,
-        "stream": False
-    })
-
-    reply = response.json()["message"]["content"]
-
-    # Hafızayı güncelle
-    conversation_history.append({"role": "user", "content": user_input})
-    conversation_history.append({"role": "assistant", "content": reply})
-
-    return jsonify({'reply': reply})
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+# JSON parse
+try:
+    json_key_dict = json.loads(json_key_str)
+except Exception as e:
+    raise Exception(f"❌ JSON decode hatası: {e}")
